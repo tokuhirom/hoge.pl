@@ -1,0 +1,49 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use App::Nopaste;
+use Getopt::Long;
+
+main(); exit;
+
+sub main {
+    my $service = 'PastebinCom';
+
+    GetOptions(
+        "service=s" => \$service,
+    );
+
+    my $url = run(
+        text => read_text() || '',
+        service => $service,
+    );
+    if ($url) {
+        print "$url\n";
+    }
+}
+
+sub run {
+    my %args = @_;
+    my $url = App::Nopaste->nopaste(%args);
+    return $url;
+}
+
+sub read_text {
+    my $self = shift;
+
+    local $/;
+    return <>;
+}
+
+__END__
+
+=head1 NAME
+
+nopaste - command-line utility to nopaste
+
+=head1 DESCRIPTION
+
+lightweight version of nopaste command, is a part of App::NoPaste.
+
+=cut
+
